@@ -28,3 +28,5 @@
 	- Stacks
 	- Security/Secrets
 	- App Deploy Lifecycle
+	
+* Course slack channel: [chat.dockermastery.com](https://dockermasterychat.herokuapp.com/)
