@@ -1,0 +1,20 @@
+ASSIGNMENT:
+Run nginx, mysql, and httpd (apache) servers simultaneously
+Run all of them --detach (or -d), name each with --name
+nginx should list on 80:80, httpd on 8080:80, and mysql on 3306:3306
+When running mysql, use --env (or -e) to pass in MYSQL_RANDOM_ROOT_PASSWORD=yes
+Use docker container logs on mysql to find the random password generated on startup
+Clean it all up with docker container stop and docker container rm (both can accept multiple names or IDs)
+Use docker container ls to ensure everything is correct before and after cleanup
+
+SOLUTION:
+docker container run --publish 80:80 --name nginx -d nginx
+docker container run --publish 80:80 --name httpd -d httpd
+docker container run --publish 3306:3306 --name mysql -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql
+* wait a bit (will say "created with an empty password" first) *
+docker container logs mysql			// will show "GENERATED ROOT PASSWORD:" somewhere
+docker container ls *or* docker ps *or* docker container ps will all list running docker processes
+curl localhost			// should give back nginx
+curl localhost:8080		// should give back apache server (httpd)
+docker container stop mysql httpd nginx
+docker container rm mysql httpd nginx

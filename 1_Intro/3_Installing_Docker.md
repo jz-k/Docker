@@ -18,6 +18,12 @@
 			- [Running Docker for Windows](#running-docker-for-windows)
 			- [Running Docker Toolbox for Windows](#running-docker-toolbox-for-windows)
 		- [Docker for Mac](#docker-for-mac)
+		- [Docker for Linux](#docker-for-linux)
+			- [script](#script)
+			- [Docker Store](#docker-store)
+			- [Don't Use Pre-Installed Set-Ups](#dont-use-pre-installed-set-ups)
+			- [Adding User to Docker Group](#adding-user-to-docker-group)
+			- [Docker-Compose and Docker Machine (required)](#docker-compose-and-docker-machine-required)
 	
 ### Docker Editions
 - Docker is no longer just a "container runtime"
@@ -155,7 +161,7 @@ docker-machine env default
 		- new machines can also be created with this command
 
 ### Docker for Mac
-- Docker Toolbox for legacy OS
+- Docker Toolbox available for legacy OS
 - Docker can also run in a Linux VM
 - Docker can also also run in a Windows VM
 	* Only works with VMWare Fusion
@@ -173,6 +179,7 @@ docker version
 - Can install iTerm2 as a replacement for MacOS stock terminal
 - To get tab completion for terminal:
 ```
+// from Docker docs
 Mac
 Install via Homebrew
 
@@ -195,3 +202,37 @@ sudo curl -L https://raw.githubusercontent.com/docker/compose/1.23.2/contrib/com
 		- Builds VMs on the fly with Docker built-in
 	* [Troubleshooting](https://docs.docker.com/docker-for-mac/troubleshoot/)
 - [Teacher's shell styling](https://www.bretfisher.com/shell/)
+
+### Docker for Linux
+- Easiest installation process, best native experience
+- Bash completion for Docker commands installed automatically
+- Installing in a VM, Cloud Instance, etc--all the same process
+- May not work for all distros (Amazon Linux, Linode Linux, etc)
+- Three main ways to install:
+	1. script
+	2. Docker store
+	3. docker-machine
+#### script
+- get.docker.com script (gets latest Edge release)
+- Something like:
+```
+curl -sSL https://get.docker.com/ | sh
+```
+- [Current instructions](https://get.docker.com/)
+#### Docker Store
+- Docker store has specific instructions for each distro
+- Red Hat Enterprise Linus (RHEL) only officially supports Docker EE (paid)
+	* CentOS version will work
+#### Don't Use Pre-Installed Set-Ups
+- Digital Ocean, Linode, etc.
+	* Generally use old versions
+- Even if using those services, manually install
+#### Adding User to Docker Group
+```
+sudo usermod -aG docker <username_here>
+```
+- Doesn't work in all distros
+	* That's ok, just append 'sudo' to all requests (Docker needs root access)
+#### Docker-Compose and Docker Machine (required)
+- Check [here](https://github.com/docker/compose/releases) and [here](https://github.com/docker/machine/releases) for latest instructions
+	* Will need to be manually updated
