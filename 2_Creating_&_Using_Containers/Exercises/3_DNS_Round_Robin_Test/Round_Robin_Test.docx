@@ -1,0 +1,32 @@
+Assignment:
+What is a DNS round robin test?
+	* Concept of two or more hosts with DNS aliases that responded to the same DNS name
+		- e.g. multiple Google servers all responding to google.com
+Ever since Docker Engine 1.11, we can have multiple containers on a created network respond to the same DNS address
+Create a new virtual network (default bridge driver)
+Create two containers from elasticsearch:2 image
+Research and use "--net-alias search" when creating them to give them an additional DNS name to respond to
+Run "alpine nslookup search" with --net to see the two containers listen for the same DNS name
+Run centos curl -s search:9200 with --net multiple times until you see both "name" fields show
+
+SOLUTION:
+docker network create my_app_net
+docker container run --name el1 --rm --network my_app_net --net-alias search elasticsearch:2
+docker container run --name el2 --rm --network my_app_net --net-alias search elasticsearch:2
+docker container run --name alp --rm --network my_app_net -it alpine
+	nslookup search search
+	exit
+docker container run --name cent --rm --network my_app_net -it centos:7 bash
+	yum install -y curl
+	curl -s search:9200		// multiple times
+	exit
+	
+note all containers are started on the same network so they can resolve DNS automatically
+note no need to use "-p" because we aren't publishing ports so they are available to outside network
+
+CLASS SOLUTION:
+docker network create dude
+docker container run -d --net dude --net-alias search elasticsearch:2
+docker container run -d --net dude --net-alias search elasticsearch:2
+docker container run --rm --net dude alpine nslookup search
+docker container run --rm --net dude centos curl -s search:9200		// multiple times
